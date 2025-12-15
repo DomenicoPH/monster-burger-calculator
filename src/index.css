@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+    --font-gochi: 'Gochi Hand', cursive;
+    --font-poetsen: 'Poetsen One', sans-serif;
+    --font-varela: 'Varela Round', sans-serif;
+}
+
+@layer utilities {
+    .font-gochi {
+        font-family: var(--font-gochi);
+    }
+
+    .font-poetsen {
+        font-family: var(--font-poetsen);
+    }
+
+    .font-varela {
+        font-family: var(--font-varela);
+    }
+}
