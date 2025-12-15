@@ -1,78 +1,185 @@
-# React + TypeScript + Vite
+<img src="./public/img/readmeshow.png" alt="Project preview – Monster Burger Order & Tip Calculator" />
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🍔 Monster Burger – Order & Tip Calculator
 
-Currently, two official plugins are available:
+[Live Demo: monsterburgerorders.netlify.app](https://monsterburgerorders.netlify.app/)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Monster Burger – Order & Tip Calculator** es una aplicación frontend desarrollada con **React + Vite + TypeScript** que simula la creación de una orden en un restaurante y el cálculo automático de propinas.
 
-## React Compiler
+El proyecto está pensado como una **demo funcional y educativa**, enfocada en buenas prácticas modernas de React: **custom hooks**, **tipado estricto con TypeScript**, **cálculos derivados con hooks de React** y **UI moderna con Tailwind CSS v4**.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+---
 
-## Expanding the ESLint configuration
+## Características principales
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Carta de productos interactiva** (hamburguesas)
+- Agregar un producto varias veces incrementa su **cantidad**
+- **Resumen de la orden** en tiempo real
+- Cálculo automático de:
+  - Subtotal
+  - Propina (10%, 20% o 50%)
+  - Total final
+- Eliminación de productos individuales
+- Reinicio completo de la orden
+- Interfaz moderna y responsive
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Tecnologías utilizadas
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Frontend
+
+- **React 19**
+- **Vite**
+- **TypeScript** (tipado estricto)
+- **Tailwind CSS v4** (CSS-first)
+- **React Icons**
+
+### Herramientas de desarrollo
+
+- ESLint
+- TypeScript Compiler (`tsc`)
+- Vite Preview
+
+---
+
+## Arquitectura y enfoque
+
+El proyecto está organizado siguiendo principios de **separación de responsabilidades** y **componentización clara**.
+
+### Componentes principales
+
+- `MenuItem` → Renderiza cada producto del menú
+- `OrderContents` → Lista los productos añadidos a la orden
+- `TipPercentageForm` → Selección del porcentaje de propina
+- `OrderTotals` → Cálculo y visualización de totales
+
+Cada componente recibe únicamente las props necesarias, manteniendo una API clara y predecible.
+
+---
+
+## Lógica central con Custom Hook
+
+Toda la lógica de negocio se concentra en un **custom hook**:
+
+```ts
+useOrder()
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Este hook gestiona:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Estado de la orden (`order`)
+- Estado de la propina (`tip`)
+- Agregar productos
+- Incrementar cantidades
+- Eliminar productos
+- Reiniciar la orden
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Ventajas de este enfoque
+
+- ✅ Reutilización de lógica
+- ✅ Componentes más simples y declarativos
+- ✅ Mejor mantenibilidad
+- ✅ Patrón recomendado en React moderno
+
+---
+
+## Cálculos derivados
+
+Los cálculos de subtotal, propina y total se realizan usando **`useMemo`**, evitando recomputaciones innecesarias:
+
+- Subtotal = suma de `(precio × cantidad)`
+- Propina = `subtotal × porcentaje`
+- Total = `subtotal + propina`
+
+Esto garantiza **mejor rendimiento** y **código más expresivo**.
+
+---
+
+## Tipado con TypeScript
+
+El proyecto utiliza **tipos centralizados** para mayor consistencia:
+
+```ts
+export type MenuItem = {
+  id: number;
+  name: string;
+  image: string;
+  price: number;
+};
+
+export type OrderItem = MenuItem & {
+  quantity: number;
+};
 ```
 
+Beneficios:
 
-## DEV DEP
+- Seguridad en tiempo de desarrollo
+- Mejor autocompletado
+- Menos errores en runtime
 
-  npm install tailwindcss @tailwindcss/vite
+---
+
+## Helpers
+
+Se incluye un helper reutilizable para formateo de moneda:
+
+```ts
+formatCurrency(quantity: number)
+```
+
+Basado en `Intl.NumberFormat`, asegura un formato correcto y consistente para precios en USD.
+
+---
+
+## ▶ Ejecutar el proyecto localmente
+
+Clona el repositorio e instala las dependencias:
+
+```bash
+npm install
+```
+
+Inicia el servidor de desarrollo:
+
+```bash
+npm run dev
+```
+
+Compilar para producción:
+
+```bash
+npm run build
+```
+
+Previsualizar build:
+
+```bash
+npm run preview
+```
+
+---
+
+## Objetivo del proyecto
+
+Este proyecto forma parte de un **portfolio frontend**, con el objetivo de demostrar:
+
+- Manejo de estado complejo sin librerías externas
+- Uso correcto de custom hooks
+- Tipado sólido con TypeScript
+- Diseño de UI con Tailwind CSS moderno
+- Buenas prácticas en React
+
+---
+
+## Licencia
+
+Este proyecto es de uso libre con fines educativos y demostrativos.
+
+---
+
+**Domenico Pagano <dpaganoh@gmail.com>**  
+
+Desarrollado como proyecto de práctica y portfolio frontend.  
+💼 [Domenico Pagano Portafolio](https://portfolio-gnomono.vercel.app/)

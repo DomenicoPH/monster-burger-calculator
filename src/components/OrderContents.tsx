@@ -23,13 +23,13 @@ export default function OrderContents({order, removeItem} : OrderContentsProps) 
                                 {item.name} - {formatCurrency(item.price)}
                             </p>
                             <p className="font-varela font-black">
-                                Catidad: {item.quantity} - {formatCurrency(item.price * item.quantity)}
+                                Quantity: {item.quantity} - {formatCurrency(item.price * item.quantity)}
                             </p>
                         </div>
                     </div>
 
                     <button
-                        className="bg-red-500 h-8 w-8 rounded-full text-white font-black"
+                        className="bg-red-500 h-8 w-8 rounded-full text-white font-black hover:bg-red-600"
                         onClick={() => removeItem(item.id)}
                     >
                         X
