@@ -23,6 +23,17 @@ export const orderReducer = (
 
     if(action.type === 'add-item'){
 
+        const itemExists = state.order.find(orderItem => orderItem.id === action.payload.item.id);
+
+        let updatedOrder : OrderItem[] = []
+
+        if(itemExists){
+            updatedOrder = state.order.map(orderItem => orderItem.id === action.payload.item.id ? {...orderItem, quantity: orderItem.quantity + 1} : orderItem);
+        } else {
+            const newItem = {...action.payload.item, quantity: 1};
+            updatedOrder = [...state.order, newItem]
+        }
+
         return {
             ...state
         }
@@ -30,22 +41,28 @@ export const orderReducer = (
 
     if(action.type === 'remove-item'){
 
+        const order = state.order.filter(item => item.id !== action.payload.id)
+
         return {
-            ...state
+            ...state,
+            order
         }
     }
 
     if(action.type === 'place-order'){
 
         return {
-            ...state
+            ...state,
+            order: [],
+            tip: 0
         }
     }
 
     if(action.type === 'add-tip'){
 
         return {
-            ...state
+            ...state,
+            tip: action.payload.value
         }
     }
 
