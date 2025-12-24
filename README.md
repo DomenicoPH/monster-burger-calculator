@@ -6,7 +6,7 @@
 
 **Monster Burger – Order & Tip Calculator** es una aplicación frontend desarrollada con **React + Vite + TypeScript** que simula la creación de una orden en un restaurante y el cálculo automático de propinas.
 
-El proyecto está pensado como una **demo funcional y educativa**, enfocada en buenas prácticas modernas de React: **custom hooks**, **tipado estricto con TypeScript**, **cálculos derivados con hooks de React** y **UI moderna con Tailwind CSS v4**.
+El proyecto está pensado como una **demo funcional y educativa**, enfocada en buenas prácticas modernas de React: **useReducer**, **tipado estricto con TypeScript**, **cálculos derivados con hooks de React** y **UI moderna con Tailwind CSS v4**.
 
 ---
 
@@ -58,15 +58,11 @@ Cada componente recibe únicamente las props necesarias, manteniendo una API cla
 
 ---
 
-## Lógica central con Custom Hook
+## Gestión de estado con useReducer
 
-Toda la lógica de negocio se concentra en un **custom hook**:
+Toda la lógica de negocio está centralizada mediante **useReducer**, permitiendo manejar un estado más complejo de forma predecible y escalable.
 
-```ts
-useOrder()
-```
-
-Este hook gestiona:
+El reducer controla:
 
 - Estado de la orden (`order`)
 - Estado de la propina (`tip`)
@@ -77,10 +73,10 @@ Este hook gestiona:
 
 ### Ventajas de este enfoque
 
-- ✅ Reutilización de lógica
-- ✅ Componentes más simples y declarativos
-- ✅ Mejor mantenibilidad
-- ✅ Patrón recomendado en React moderno
+- ✅ Lógica centralizada en un único reducer
+- ✅ Patrón ideal para estados complejos
+- ✅ Reducers fácilmente escalables
+- ✅ Flujo de datos más predecible
 
 ---
 
@@ -165,8 +161,8 @@ npm run preview
 
 Este proyecto forma parte de un **portfolio frontend**, con el objetivo de demostrar:
 
-- Manejo de estado complejo sin librerías externas
-- Uso correcto de custom hooks
+- Manejo de estado complejo con useReducer
+- Arquitectura limpia y mantenible
 - Tipado sólido con TypeScript
 - Diseño de UI con Tailwind CSS moderno
 - Buenas prácticas en React
