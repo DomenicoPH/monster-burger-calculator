@@ -35,7 +35,8 @@ export const orderReducer = (
         }
 
         return {
-            ...state
+            ...state,
+            order: updatedOrder
         }
     }
 
@@ -65,5 +66,7 @@ export const orderReducer = (
             tip: action.payload.value
         }
     }
+
+    return state
 
 }

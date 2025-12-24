@@ -1,14 +1,15 @@
 import { FaHamburger } from "react-icons/fa";
 import MenuItem from "./components/MenuItem";
 import { menuItems } from "./data/db";
-import useOrder from "./hooks/useOrder";
 import OrderContents from "./components/OrderContents";
 import TipPercentageForm from "./components/TipPercentageForm";
 import OrderTotals from "./components/OrderTotals";
+import { initialState, orderReducer } from "./reducers/order-reducer";
+import { useReducer } from "react";
 
 function App() {
 
-  const {order, tip, setTip, addItem, removeItem, placeOrder} = useOrder();
+  const [state, dispatch] = useReducer(orderReducer, initialState);
 
   return (
     <>
@@ -28,27 +29,27 @@ function App() {
               <MenuItem 
                 key={item.id}
                 item={item}
-                addItem={addItem}
+                dispatch={dispatch}
               />
             ))}
           </div>
         </div>
 
         <div className="border border-dashed border-slate-300 p-5 rounded-lg space-y-10">
-            {order.length ? (
+            {state.order.length ? (
               <>
                 <OrderContents 
-                  order={order}
-                  removeItem={removeItem}
+                  order={state.order}
+                  dispatch={dispatch}
                 />
                 <TipPercentageForm 
-                  setTip={setTip}
-                  tip={tip}
+                  dispatch={dispatch}
+                  tip={state.tip}
                 />
                 <OrderTotals 
-                  order={order}
-                  tip={tip}
-                  placeOrder={placeOrder}
+                  order={state.order}
+                  tip={state.tip}
+                  dispatch={dispatch}
                 />
               </>
             ) : (

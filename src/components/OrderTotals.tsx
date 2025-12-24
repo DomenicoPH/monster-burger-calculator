@@ -1,17 +1,19 @@
 import { useMemo } from "react"
 import type { OrderItem } from "../types"
 import { formatCurrency } from "../helpers"
+import type { ActionDispatch } from "react";
+import type { OrderActions } from "../reducers/order-reducer";
 
 type OrderTotalsProps = {
     order: OrderItem[];
     tip: number;
-    placeOrder: () => void;
+    dispatch: ActionDispatch<[action: OrderActions]>
 }
 
 export default function OrderTotals({
     order,
     tip,
-    placeOrder
+    dispatch
 } : OrderTotalsProps) {
 
     const subTotalAmount = useMemo(
@@ -45,7 +47,7 @@ export default function OrderTotals({
               <button 
                 className="w-full bg-black p-3 uppercase text-white font-bold text-xl mt-10 cursor-pointer disabled:opacity-10 disabled:cursor-auto font-poetsen rounded-lg hover:bg-slate-800"
                 disabled={totalAmount === 0}
-                onClick={placeOrder}
+                onClick={() => dispatch({ type: 'place-order' })}
               >
                 Place Order
               </button>
