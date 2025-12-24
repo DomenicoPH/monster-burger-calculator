@@ -24,3 +24,5 @@ dist-ssr
 *.sw?
 
 depdev.md
+
+/version-ts-customHook
